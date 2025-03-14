@@ -28,8 +28,8 @@ public class Usuario {
 
     @Column(name = "username", length = 100, nullable = false, unique = true)
     @NotNull (groups = CreateUser.class)
-    @NotEmpty
-    @Size (min = 2, max = 100)
+    @NotEmpty (groups = CreateUser.class)
+    @Size (groups = CreateUser.class, min = 2, max = 100)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
