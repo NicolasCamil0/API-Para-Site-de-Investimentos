@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>InvestmentService.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+InvestmentService.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">mio</span><span class="s2">.</span><span class="s1">todosimple</span><span class="s2">.</span><span class="s1">services</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">beans</span><span class="s2">.</span><span class="s1">factory</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Value</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">stereotype</span><span class="s2">.</span><span class="s1">Service</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">RestTemplate</span><span class="s2">;</span>
+
+<span class="s1">@Service</span>
+<span class="s0">public class </span><span class="s1">InvestmentService </span><span class="s2">{</span>
+    <span class="s1">@Value</span><span class="s2">(</span><span class="s3">&quot;${alpha.vantage.api.key}&quot;</span><span class="s2">)</span>
+    <span class="s0">private </span><span class="s1">String apiKey</span><span class="s2">;</span>
+
+    <span class="s0">private final </span><span class="s1">RestTemplate restTemplate</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">InvestmentService</span><span class="s2">(</span><span class="s1">RestTemplate restTemplate</span><span class="s2">){</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">restTemplate </span><span class="s2">= </span><span class="s1">restTemplate</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getStockData</span><span class="s2">(</span><span class="s1">String x</span><span class="s2">){</span>
+        <span class="s1">String url </span><span class="s2">= </span><span class="s3">&quot;https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&amp;symbol=&quot; </span><span class="s2">+ </span><span class="s1">x </span><span class="s2">+ </span><span class="s3">&quot;&amp;apikey=&quot; </span><span class="s2">+ </span><span class="s1">apiKey</span><span class="s2">;</span>
+        <span class="s1">String response </span><span class="s2">= </span><span class="s1">restTemplate</span><span class="s2">.</span><span class="s1">getForObject</span><span class="s2">(</span><span class="s1">url</span><span class="s2">, </span><span class="s1">String</span><span class="s2">.</span><span class="s0">class</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">response</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

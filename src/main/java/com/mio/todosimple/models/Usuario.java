@@ -1,6 +1,9 @@
 package com.mio.todosimple.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mio.todosimple.controller.TaskController;
+import com.mio.todosimple.repositories.TaskRepository;
+import com.mio.todosimple.repositories.UserRepository;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
@@ -58,6 +61,7 @@ public class Usuario {
         this.username = username;
         this.password = password;
     }
+
 
     public Long getId() {
         return id;

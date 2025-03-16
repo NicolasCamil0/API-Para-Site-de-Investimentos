@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>UserService.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+UserService.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">mio</span><span class="s2">.</span><span class="s1">todosimple</span><span class="s2">.</span><span class="s1">services</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">mio</span><span class="s2">.</span><span class="s1">todosimple</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">Usuario</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">mio</span><span class="s2">.</span><span class="s1">todosimple</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">TaskRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">mio</span><span class="s2">.</span><span class="s1">todosimple</span><span class="s2">.</span><span class="s1">repositories</span><span class="s2">.</span><span class="s1">UserRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">beans</span><span class="s2">.</span><span class="s1">factory</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Autowired</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">stereotype</span><span class="s2">.</span><span class="s1">Service</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">transaction</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Transactional</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Optional</span><span class="s2">;</span>
+
+<span class="s1">@Service</span>
+<span class="s0">public class </span><span class="s1">UserService </span><span class="s2">{</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">UserRepository userRepository</span><span class="s2">;</span>
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">TaskRepository taskRepository</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Usuario findById</span><span class="s2">(</span><span class="s1">Long id</span><span class="s2">){</span>
+        <span class="s1">Optional</span><span class="s2">&lt;</span><span class="s1">Usuario</span><span class="s2">&gt; </span><span class="s1">user </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">user</span><span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;Usuário não encontrado, id: &quot; </span><span class="s2">+ </span><span class="s1">id </span><span class="s2">+ </span><span class="s3">&quot;não existe &quot; </span><span class="s2">+ </span><span class="s1">Usuario</span><span class="s2">.</span><span class="s0">class</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">()));</span>
+
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">Usuario findByUsername</span><span class="s2">(</span><span class="s1">String username</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">findByUsername</span><span class="s2">(</span><span class="s1">username</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;Username: &quot; </span><span class="s2">+ </span><span class="s1">username </span><span class="s2">+ </span><span class="s3">&quot; não encontrado&quot;</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Transactional</span>
+    <span class="s0">public </span><span class="s1">Usuario create</span><span class="s2">(</span><span class="s1">Usuario obj</span><span class="s2">){</span>
+        <span class="s1">obj</span><span class="s2">.</span><span class="s1">setId</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">obj </span><span class="s2">= (</span><span class="s1">Usuario</span><span class="s2">) </span><span class="s0">this</span><span class="s2">.</span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">obj</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">taskRepository</span><span class="s2">.</span><span class="s1">saveAll</span><span class="s2">(</span><span class="s1">obj</span><span class="s2">.</span><span class="s1">getTasks</span><span class="s2">());</span>
+        <span class="s0">return </span><span class="s1">obj</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Transactional</span>
+    <span class="s0">public </span><span class="s1">Usuario update</span><span class="s2">(</span><span class="s1">Usuario obj</span><span class="s2">){</span>
+        <span class="s1">Usuario newObj </span><span class="s2">= </span><span class="s1">findById</span><span class="s2">(</span><span class="s1">obj</span><span class="s2">.</span><span class="s1">getId</span><span class="s2">());</span>
+        <span class="s1">newObj</span><span class="s2">.</span><span class="s1">setPassword</span><span class="s2">(</span><span class="s1">obj</span><span class="s2">.</span><span class="s1">getPassword</span><span class="s2">());</span>
+        <span class="s0">return </span><span class="s2">(</span><span class="s1">Usuario</span><span class="s2">) </span><span class="s0">this</span><span class="s2">.</span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">newObj</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">delete </span><span class="s2">(</span><span class="s1">Long id</span><span class="s2">){</span>
+        <span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">);</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">deleteById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">){</span>
+            <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s3">&quot;Não há entidades relacionadas&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+    <span class="s2">}</span>
+
+
+
+
+
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.RuntimeErrorException;
-import javax.swing.text.html.parser.Entity;
 import java.util.Optional;
 
 @Service
@@ -23,6 +21,11 @@ public class UserService {
         Optional<Usuario> user = this.userRepository.findById(id);
         return user.orElseThrow(() -> new RuntimeException("Usuário não encontrado, id: " + id + "não existe " + Usuario.class.getName()));
 
+    }
+
+    public Usuario findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Username: " + username + " não encontrado"));
     }
 
     @Transactional
