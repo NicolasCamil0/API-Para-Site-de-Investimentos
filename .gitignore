@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/main/resources/application.properties
+/todosimple/ex
 
 ### STS ###
 .apt_generated
