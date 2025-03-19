@@ -2,7 +2,9 @@ package com.mio.todosimple.Auth;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LoginRequest {
 
     @NotEmpty

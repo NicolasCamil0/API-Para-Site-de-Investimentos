@@ -4,12 +4,14 @@ import com.mio.todosimple.repositories.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 
 import java.util.Date;
 import java.util.Optional;
 
+@Component
 public class JtwUtil {
 
     @Autowired

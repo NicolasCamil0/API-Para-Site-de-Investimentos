@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.stereotype.Component;
 
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Objects;
 
 @Entity
 @Table (name = Usuario.TABLE_NAME)
+@Component
 public class Usuario {
     public interface CreateUser {}
     public interface UpdateUser {}
