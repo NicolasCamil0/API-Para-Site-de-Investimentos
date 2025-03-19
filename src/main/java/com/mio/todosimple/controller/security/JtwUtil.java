@@ -1,36 +1,51 @@
 package com.mio.todosimple.controller.security;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.mio.todosimple.models.Usuario;
+import com.mio.todosimple.repositories.UserRepository;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.security.Key;
 
-
-import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
 
 public class JtwUtil {
 
-    private String secretKey = "Cnys";
-    private long validityseconds = 3600000;
+    @Autowired
+    private Usuario usuario;
 
-    public String generateToken(String username){
+    @Autowired
+    private UserRepository userRepository;
+
+    private final String secretKey = "Cnys";
+    private final long validitySeconds = 3600000; // 1 hora
+
+    public String generateToken(String username) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + validityseconds)) //
-                .signWith(key, SignatureAlgorithm.HS256) //
-                .compact(); //
+        Optional<Usuario> usuarioOptional = userRepository.findByUsername(username);
+
+        try {
+            return Jwts.builder().subject(username) //
+                    .claim("id", usuario.getId()) //
+                    .issuedAt(new Date())
+                    .expiration(new Date(System.currentTimeMillis() + validitySeconds))
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("Token expirado", e);
+        } catch (JwtException e) {
+            throw new RuntimeException("Token inválido", e);
+        }
     }
 
-    public boolean validateToken (String token, String username){
+    public boolean validateToken(String token, String username) {
         String tokenUsername = extractUsername(token);
-        return (username.equals(tokenUsername) && !isTokenExpired(token));
+        return (usuario.getUsername().equals(tokenUsername) && !isTokenExpired(token));
     }
 
-    public String extractUsername (String token){
+    public String extractUsername(String token) {
         return extractClaims(token).getSubject();
     }
 
@@ -38,14 +53,18 @@ public class JtwUtil {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
-    private Claims extractClaims(String token){
+    private Claims extractClaims(String token) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-
         return Jwts.parser()
-                .setSigningKey(key) // Define a chave secreta usada para assinar o token
+                .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token) // Decodifica e valida o token JWT
-                .getBody(); // Retorna o payload do token (claims)
+                .parseSignedClaims(token)
+                .getPayload(); //
+    }
+
+    public Long obterIdUsuario(String token) {
+        Claims claims = extractClaims(token);
+        return Long.parseLong(claims.get("id", String.class));
     }
 
 }
