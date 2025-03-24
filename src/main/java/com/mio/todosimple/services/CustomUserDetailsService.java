@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,11 +18,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         Optional<Usuario> usuarioOptional = userRepository.findByUsername(username);  // Buscar pelo username
 
-        if (!usuarioOptional.isPresent()){
+        if (usuarioOptional.isEmpty()){
             throw new IdNotFoundException("Usuário com nome: " + username + " não encontrado");
         }
 
@@ -37,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserById (Long Id) throws IdNotFoundException {
         Optional<Usuario> usuarioOptional = userRepository.findById(Id);
 
-        if (!usuarioOptional.isPresent()){
+        if (usuarioOptional.isEmpty()){
             throw new IdNotFoundException("Usuário com ID:" + Id + "Não encontrado");
         }
 

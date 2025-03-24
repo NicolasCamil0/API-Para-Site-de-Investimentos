@@ -34,12 +34,17 @@ public class AuthController {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private LoginRequest loginRequest;
-
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticatorUser(@RequestBody LoginRequest loginRequest) {
+
+        System.out.println("Tentando autenticar:" + loginRequest.getUsername());
+
+        Usuario user1 = userService.findByUsername(loginRequest.getUsername());
+        if (user1 == null){
+            System.out.println("usuário não encontrado");
+            return new ResponseEntity<>("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        }
         //
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
