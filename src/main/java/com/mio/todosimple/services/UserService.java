@@ -14,6 +14,8 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
+    private Usuario usuario;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private TaskRepository taskRepository;
@@ -36,6 +38,12 @@ public class UserService {
         obj.setId(null);
         obj = (Usuario) this.userRepository.save(obj);
         obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+        String encodedPassword = passwordEncoder.encode(obj.getPassword());
+        System.out.println("Senha recebida: " + obj.getPassword());
+        usuario.setPassword(encodedPassword);
+        if (obj.getPassword() != null) {
+            obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+        }
         this.taskRepository.saveAll(obj.getTasks());
         return obj;
     }

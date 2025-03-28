@@ -45,7 +45,7 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/register").permitAll().anyRequest().authenticated())
+                        .requestMatchers("/login", "/register", "/user").permitAll().anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults())
