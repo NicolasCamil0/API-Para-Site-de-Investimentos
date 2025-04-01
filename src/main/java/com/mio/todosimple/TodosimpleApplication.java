@@ -2,17 +2,13 @@ package com.mio.todosimple;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.ApplicationContext;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.mio.todosimple")
 public class TodosimpleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TodosimpleApplication.class, args);
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println(encoder.encode("123456"));
-
+		ApplicationContext context = SpringApplication.run(TodosimpleApplication.class, args);
 	}
 
 }
