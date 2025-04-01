@@ -1,6 +1,8 @@
 package com.mio.todosimple.Selic.Service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,12 +16,14 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class SelicService {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public SelicService(RestTemplate restTemplate) {
+    public SelicService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
     }
 
-    public String getUltimaSelic() {
+    public Double getUltimaSelic() {
         String url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json";
 
         HttpHeaders headers = new HttpHeaders();
@@ -33,10 +37,17 @@ public class SelicService {
                     entity,
                     String.class
             );
-            return response.getBody();
+
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            String valorSelic = jsonNode.get(0).get("valor").asText();
+            return Double.parseDouble(valorSelic);
+
         } catch (Exception e) {
-            return "Erro ao consultar SELIC: " + e.getMessage();
-        }
-    }
+            return 0.0;
+
 
     }
+
+}
+
+}
