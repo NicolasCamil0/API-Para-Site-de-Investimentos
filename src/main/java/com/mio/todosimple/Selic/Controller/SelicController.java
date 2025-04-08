@@ -15,7 +15,7 @@ public class SelicController {
     }
 
     @GetMapping("/ultima")
-    public Double getUltimaSelic() {
+    public Double  getUltimaSelic() {
         return selicService.getUltimaSelic();
     }
 }

@@ -48,7 +48,8 @@ public class SecurityConfig{
                                 "/login",
                                 "/register",
                                 "/user",
-                                "/api/selic/**"
+                                "/api/selic/**",
+                                "/stock"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -51,6 +51,11 @@
 			<version>2.18.3</version>
 		</dependency>
 		<dependency>
+			<groupId>com.github.crazzyghost</groupId>
+			<artifactId>alphavantage-java</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
