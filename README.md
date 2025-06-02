@@ -1,3 +1,2 @@
-#API para site de investimentos
-#Este projeto é uma API em Java Spring Boot que permite simular rendimentos financeiros com base na Taxa Selic e outros índices. A aplicação realiza consultas e cálculos automatizados, oferecendo projeções de lucro para investimentos como poupança, tesouro direto e CDBs.
-#Java, SpringBoot, JWT
+Sistema ainda em desenvolvimento, código voltado para a construção de um site de simulação de investimentos financeiros. Tem como objetivo facilitar a busca e aplicação de investimentos nacionais e exteriores, usando informações como SELIC, bolsa de valores, cotação...
+O código foi desenvolvido com Java + Spring.
